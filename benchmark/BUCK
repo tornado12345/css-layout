@@ -1,27 +1,25 @@
 # Copyright (c) 2014-present, Facebook, Inc.
-# All rights reserved.
 #
-# This source code is licensed under the BSD-style license found in the
-# LICENSE file in the root directory of this source tree. An additional grant
-# of patent rights can be found in the PATENTS file in the same directory.
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
 
-include_defs('//CSSLAYOUT_DEFS')
+load("//:yoga_defs.bzl", "yoga_cxx_binary", "yoga_dep")
 
-cxx_binary(
-  name = 'benchmark',
-  srcs = glob(['*.c']),
-  headers = subdir_glob([('', '*.h')]),
-  header_namespace = '',
-  compiler_flags = [
-    '-fno-omit-frame-pointer',
-    '-fexceptions',
-    '-Wall',
-    '-Werror',
-    '-O3',
-    '-std=c11',
-  ],
-  deps = [
-    csslayout_dep(':CSSLayout'),
-  ],
-  visibility = ['PUBLIC'],
+yoga_cxx_binary(
+    name = "benchmark",
+    srcs = glob(["*.c"]),
+    headers = subdir_glob([("", "*.h")]),
+    header_namespace = "",
+    compiler_flags = [
+        "-fno-omit-frame-pointer",
+        "-fexceptions",
+        "-Wall",
+        "-Werror",
+        "-O3",
+        "-std=c11",
+    ],
+    visibility = ["PUBLIC"],
+    deps = [
+        yoga_dep(":yoga"),
+    ],
 )
