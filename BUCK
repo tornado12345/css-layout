@@ -1,9 +1,8 @@
-# Copyright (c) 2014-present, Facebook, Inc.
+# Copyright (c) Facebook, Inc. and its affiliates.
 #
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
-
-load("//:yoga_defs.bzl", "LIBRARY_COMPILER_FLAGS", "BASE_COMPILER_FLAGS", "GTEST_TARGET", "yoga_dep", "yoga_cxx_library", "yoga_cxx_test")
+load("//tools/build_defs/oss:yoga_defs.bzl", "BASE_COMPILER_FLAGS", "GTEST_TARGET", "LIBRARY_COMPILER_FLAGS", "subdir_glob", "yoga_cxx_library", "yoga_cxx_test", "yoga_dep")
 
 GMOCK_OVERRIDE_FLAGS = [
     # gmock does not mark mocked methods as override, ignore the warnings in tests
@@ -35,6 +34,7 @@ yoga_cxx_library(
 yoga_cxx_test(
     name = "YogaTests",
     srcs = glob(["tests/*.cpp"]),
+    headers = subdir_glob([("", "yoga/**/*.h")]),
     compiler_flags = TEST_COMPILER_FLAGS,
     contacts = ["emilsj@fb.com"],
     visibility = ["PUBLIC"],

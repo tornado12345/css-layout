@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -33,7 +33,7 @@ public class VirtualYogaLayout extends ViewGroup {
 
   final private List<View> mChildren = new LinkedList<>();
   final private Map<View, YogaNode> mYogaNodes = new HashMap<>();
-  final private YogaNode mYogaNode = new YogaNode();
+  final private YogaNode mYogaNode = YogaNode.create();
 
   public VirtualYogaLayout(Context context) {
     super(context);
@@ -73,7 +73,7 @@ public class VirtualYogaLayout extends ViewGroup {
       return;
     }
 
-    YogaNode node = new YogaNode();
+    YogaNode node = YogaNode.create();
     YogaLayout.LayoutParams lp = new YogaLayout.LayoutParams(params);
     YogaLayout.applyLayoutParams(lp, node, child);
     node.setData(child);
