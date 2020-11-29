@@ -10,13 +10,11 @@ YOGA_ROOTS = ["//..."]
 
 JAVA_TARGET = "//java:java"
 
-INFER_ANNOTATIONS_TARGET = "//lib/infer-annotations:infer-annotations"
-
 JSR_305_TARGET = "//lib/jsr-305:jsr-305"
 
 JUNIT_TARGET = "//lib/junit:junit"
 
-PROGRUARD_ANNOTATIONS_TARGET = "//java/proguard-annotations/src/main/java/com/facebook/proguard/annotations:annotations"
+PROGUARD_ANNOTATIONS_TARGET = "//java/proguard-annotations/src/main/java/com/facebook/proguard/annotations:annotations"
 
 SOLOADER_TARGET = "//lib/soloader:soloader"
 
@@ -55,9 +53,14 @@ CXX_LIBRARY_WHITELIST = [
 BASE_COMPILER_FLAGS = [
     "-fno-omit-frame-pointer",
     "-fexceptions",
+    "-fvisibility=hidden",
+    "-ffunction-sections",
+    "-fdata-sections",
     "-Wall",
     "-Werror",
     "-O2",
+    "-std=c++11",
+    "-DYG_ENABLE_EVENTS",
 ]
 
 LIBRARY_COMPILER_FLAGS = BASE_COMPILER_FLAGS + [
@@ -148,6 +151,9 @@ def _single_subdir_glob(dirpath, glob_pattern, exclude = None, prefix = None):
 def yoga_dep(dep):
     return "//" + dep
 
+def yoga_cxx_lib(lib):
+    return yoga_dep(lib)
+
 def yoga_android_aar(*args, **kwargs):
     native.android_aar(*args, **kwargs)
 
@@ -187,6 +193,7 @@ def yoga_java_library(*args, **kwargs):
     native.java_library(*args, **kwargs)
 
 def yoga_java_test(*args, **kwargs):
+    kwargs["deps"] = kwargs.get("deps", []) + ["//lib/hamcrest:hamcrest"]
     native.java_test(*args, **kwargs)
 
 def yoga_prebuilt_cxx_library(*args, **kwargs):
@@ -194,6 +201,9 @@ def yoga_prebuilt_cxx_library(*args, **kwargs):
 
 def yoga_prebuilt_jar(*args, **kwargs):
     native.prebuilt_jar(*args, **kwargs)
+
+def yoga_prebuilt_aar(*args, **kwargs):
+    native.android_prebuilt_aar(*args, **kwargs)
 
 def is_apple_platform():
     return True
